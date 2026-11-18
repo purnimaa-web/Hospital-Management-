@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospital Management Billing System</title>
+</head>
+<body>
+    <div class="main-container">
+        <h1>Hospital Management Billing System</h1>
+          
+<p class="section-description">Patient Billing and Receipt System</p>  
+
+        <div class="header">
+            <section class="form-section">
+                <h2>Patient Information</h2>
+                <p class="section-description">Enter patient details to calculate the hospital bill</p>
+                <form id="billingform">
+
+                    <div class="form-group">
+                        <label for="patientName">Patient Name</label>
+                        <input type="text" id="patientName"
+                        placeholder="Enter the patient name" required>
+                    </div>
+
+
+
+                    <div class="form-group">
+                        <label for="cabinType">Select cabin type</label>
+                        <select id="cabinType" required>
+                            <option value="">choose a cabin</option>
+                            <option value="1000">General-1000 tk/day</option>
+                            <option value="2000">Semi Deluxe-2000 tk/day</option>
+                            <option value="3500">Deluxe-3500 tk/day</option>
+                        </select>
+                    </div>
+
+
+
+                    <div class="form-group">
+                        <label for="days">Number of Days</label>
+                        <input type="number" id="days"
+                        placeholder="Enter the number of days"min="1" step="1"required>
+
+                    </div>
+
+
+
+                    <div class="form-group">
+                        <label for="cost">Medicine Cost (TK)</label>
+                        <input type="number" id="medicineCost"
+                        placeholder="Enter medicine cost" min="0"steo="0.01" required>
+                    </div>
+
+
+
+                     <div class="form-group">
+                        <label for="testcost">Test Cost (TK)</label>
+                        <input type="number" id="testCost"
+                        placeholder="Enter testCost" min="0"step="0.01" required>
+                    </div>
+
+
+                     <button type="submit" class="generate-button">
+                        Generate Bill
+                    </button>
+
+                    <button type="reset" class="reset-button">
+                        Clear Form
+                    </button>
+
+                </form>
+            </section>
+
+
+                <section class="receipt-section">
+
+    <div id="receiptPlaceholder" class="placeholder">
+        <h2>Patient Bill Receipt</h2>
+        <p>Enter patient information and click Generate Bill.</p>
+    </div>
+
+    <div id="billReceipt" class="receipt" hidden>
+
+        <div class="receipt-header">
+            <h2>Patient Bill Receipt</h2>
+            <p>Hospital Management Billing System</p>
+        </div>
+
+        <div class="receipt-details">
+            <div>
+                <span>Patient Name</span>
+                <strong id="receiptName"></strong>
+            </div>
+
+            <div>
+                <span>Cabin Type</span>
+                <strong id="receiptCabin"></strong>
+            </div>
+
+            <div>
+                <span>Number of Days</span>
+                <strong id="receiptDays"></strong>
+            </div>
+
+            <div>
+                <span>Bill Date</span>
+                <strong id="receiptDate"></strong>
+            </div>
+        </div>
+
+        <h3 class="bill-title">BILL SUMMARY</h3>
+
+        <div class="bill-row">
+            <span>Cabin Charge</span>
+            <strong id="receiptCabinCost"></strong>
+        </div>
+
+        <div class="bill-row">
+            <span>Medicine Cost</span>
+            <strong id="receiptMedicine"></strong>
+        </div>
+
+        <div class="bill-row">
+            <span>Test Cost</span>
+            <strong id="receiptTest"></strong>
+        </div>
+
+        <div class="bill-row subtotal">
+            <span>Subtotal</span>
+            <strong id="receiptSubtotal"></strong>
+        </div>
+
+        <div class="bill-row">
+            <span>VAT (10%)</span>
+            <strong id="receiptVat"></strong>
+        </div>
+
+        <div class="grand-total">
+            <span>Grand Total</span>
+            <strong id="receiptTotal"></strong>
+        </div>
+
+        <button type="button" id="printButton"
+                class="print-button">
+            Print Bill Receipt
+        </button>
+
+    </div>
+
+</section>
+           
+        </header>
+    </div>
+
+
+ <style>
+    * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+ h1 {
+    text-align: center;
+    color: #087f8c;
+    margin-bottom: 10px;
+    font-size: 30px;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #eaf4f8;
+    padding: 25px;
+    color: #263746;
+}
+
+.main-container {
+    max-width: 950px;
+    margin: auto;
+    padding: 25px;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px #cbd8e1;
+}
+
+.form-section, .receipt-section {
+    background-color: #f7fbfd;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+h2, .bill-title {
+    color: #087f8c;
+    margin-bottom: 12px;
+}
+
+.section-description {
+    color: #718096;
+    margin-bottom: 18px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    margin-bottom: 7px;
+    font-weight: bold;
+}
+
+input, select {
+    width: 100%;
+    padding: 11px;
+    border: 1px solid #cbd8e1;
+    border-radius: 6px;
+}
+
+button {
+    padding: 11px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    margin: 5px 3px 5px 0;
+}
+
+.generate-button {
+    background-color: #087f8c;
+    color: white;
+}
+
+.reset-button {
+    background-color: #dce8ee;
+}
+
+.receipt-header {
+    text-align: center;
+    padding: 15px;
+    border-bottom: 2px dashed #bdcbd4;
+}
+
+.receipt-details {
+    padding: 15px 0;
+    border-bottom: 1px dashed #bdcbd4;
+}
+
+.receipt-details div, .bill-row, .grand-total {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px 0;
+}
+
+.bill-row {
+    border-bottom: 1px solid #e5edf2;
+}
+
+.subtotal {
+    font-weight: bold;
+}
+
+.grand-total {
+    background-color: #087f8c;
+    color: white;
+    padding: 15px;
+    border-radius: 7px;
+    margin-top: 15px;
+    font-weight: bold;
+}
+
+.print-button {
+    background-color: #263746;
+    color: white;
+    width: 100%;
+    margin-top: 15px;
+}
+
+button:hover {
+    opacity: 0.85;
+}
+
+.placeholder {
+    text-align: center;
+    padding: 35px 10px;
+    color: #718096;
+}
+
+[hidden] {
+    display: none !important;
+}
+
+@media (max-width: 600px) {
+    body {
+        padding: 10px;
+    }
+
+    .main-container {
+        padding: 12px;
+    }
+
+    .form-section, .receipt-section {
+        padding: 14px;
+    }
+}
+
+ </style>
+ <script>
+    
+const billingForm = document.getElementById("billingform");
+
+billingForm.addEventListener("submit", function(event) {
+    event.preventDefault();
+    const patientName = document.getElementById("patientName").value;
+    const cabinSelect = document.getElementById("cabinType");
+    const cabinRate = Number(cabinSelect.value);
+    const cabinType = cabinSelect.options[cabinSelect.selectedIndex].text;
+    const days = Number(document.getElementById("days").value);
+    const medicineCost = Number(document.getElementById("medicineCost").value);
+    const testCost = Number(document.getElementById("testCost").value);
+    const cabinCharge = cabinRate * days;
+    const totalMedicineCost = medicineCost;
+    const totalTestCost = testCost;
+    const subtotal = cabinCharge + totalMedicineCost + totalTestCost;
+    const vat = subtotal * 10 / 100;
+    const grandTotal = subtotal + vat;
+    document.getElementById("receiptName").textContent = patientName;
+    document.getElementById("receiptCabin").textContent = cabinType;
+    document.getElementById("receiptDays").textContent = days;
+    document.getElementById("receiptDate").textContent =
+        new Date().toLocaleDateString("en-GB");
+
+    document.getElementById("receiptCabinCost").textContent =
+        cabinCharge.toFixed(2) + " Tk";
+
+    document.getElementById("receiptMedicine").textContent =
+        totalMedicineCost.toFixed(2) + " Tk";
+
+    document.getElementById("receiptTest").textContent =
+        totalTestCost.toFixed(2) + " Tk";
+
+    document.getElementById("receiptSubtotal").textContent =
+        subtotal.toFixed(2) + " Tk";
+
+    document.getElementById("receiptVat").textContent =
+        vat.toFixed(2) + " Tk";
+
+    document.getElementById("receiptTotal").textContent =
+        grandTotal.toFixed(2) + " Tk";
+
+    document.getElementById("receiptPlaceholder").hidden = true;
+    document.getElementById("billReceipt").hidden = false;
+});
+
+ </script>
+
+</body>
+</html>
